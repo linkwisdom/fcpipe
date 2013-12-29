@@ -17,11 +17,11 @@
 
       127.0.0.1 fc-offline.baidu.com
 
- * 启动代理服务器
+ * 启动代理服务器, 需要全局安装`-g`
 
     fcpipe
 
-    或者基于源码
-
-    node pipe.js
  
+ ## 原理
+
+* 前向代理，按url解析将静态资源重定向到前端开发的edp服务器；权限验证和ajax服务重定向到BFE支持的fctest或fc-offline机器

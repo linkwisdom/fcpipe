@@ -6,7 +6,7 @@ exports.cli = cli;
 
 cli.command = 'pipe';
 cli.options = ['id:', 'type:'];
-cli.description = '运行mock服务';
+cli.description = '运行fcpipe服务';
 cli.usage = 'edp pipe <dir>';
 
 cli.main = function ( args, opts ) {
