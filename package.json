@@ -1,0 +1,31 @@
+{
+  "author": "liandong liu",
+  "name": "fcpipe",
+  "description": "building a pipe between front to back ends",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/linkwisdom/fcpipe.git"
+  },
+  "main": "./pipe.js",
+  "keywords": [
+    "mock",
+    "proxy",
+    "edp"
+  ],
+  "cli": "./cli.js",
+  "bin": {
+      "pp": "node ./pipe.js"
+  },
+  "dependencies": {
+    "http-proxy": ">=0.10"
+  },
+  "engines": {
+    "node": "*"
+  },
+  "scripts": {
+    "test": "node pipe.js"
+  },
+  "license": "BSD",
+  "readmeFilename": "README.md"
+}
