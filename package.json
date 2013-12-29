@@ -15,7 +15,7 @@
   ],
   "cli": "./cli.js",
   "bin": {
-      "pp": "node ./pipe.js"
+      "pp": "node ./pipe.js 8000"
   },
   "dependencies": {
     "http-proxy": ">=0.10"
@@ -24,7 +24,7 @@
     "node": "*"
   },
   "scripts": {
-    "test": "node pipe.js"
+    "test": "node test.js"
   },
   "license": "BSD",
   "readmeFilename": "README.md"

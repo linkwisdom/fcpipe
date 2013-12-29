@@ -8,11 +8,14 @@
 var httpProxy = require('http-proxy');
 var http = require('http');
 
-var proxyList = require('./config');
-var router = require('./router');
+exports.proxyList = require('./config');
+exports.router = require('./router');
 
 // 根据请求url动态解析代理参数
 function proxyPass(url) {
+    var proxyList = exports.proxyList;
+    var router = exports.router;
+
     var config = {
         host: 'fc-offline.baidu.com',
         port: 8000
@@ -68,20 +71,29 @@ var proxy = new httpProxy.RoutingProxy();
  *    或者基于源码
  *    node pipe.js
  */
-http.createServer(function(request, response) {
-    var proxyConfig = proxyPass(request.url);
+exports.start = function(port) {
+    http.createServer(function(request, response) {
+        var proxyConfig = proxyPass(request.url);
 
-    // 伪造host
-    if (proxyConfig.qhost) {
-        var headers = request.headers;
-        headers.host = proxyConfig.qhost;
-    }
+        // 伪造host
+        if (proxyConfig.qhost) {
+            var headers = request.headers;
+            headers.host = proxyConfig.qhost;
+        }
 
-    // 修改url
-    if (proxyConfig.url) {
-        request.url = proxyConfig.url;
-    }
+        // 修改url
+        if (proxyConfig.url) {
+            request.url = proxyConfig.url;
+        }
 
-    // 处理代理请求
-    proxy.proxyRequest(request, response, proxyConfig);
-}).listen(8000);
+        // 处理代理请求
+        proxy.proxyRequest(request, response, proxyConfig);
+    }).listen(port || 8000);
+};
+
+// test hold
+var argv = process.argv;
+if (argv.length > 2 && argv[1] == __filename) {
+    var port = +argv[2];
+    exports.start(port);
+}
