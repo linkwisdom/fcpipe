@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+
+var pipe = require('../pipe');
+var argv = process.argv;
+
+if (argv.length < 3) {
+    pipe.start(8000);
+} else {
+    pipe.start(+argv[2]);
+}

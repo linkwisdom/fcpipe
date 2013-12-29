@@ -1,8 +1,9 @@
 {
   "author": "liandong liu",
+  "contacts": ["liu@liandong.org"],
   "name": "fcpipe",
   "description": "building a pipe between front to back ends",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": {
     "type": "git",
     "url": "git://github.com/linkwisdom/fcpipe.git"
@@ -15,7 +16,7 @@
   ],
   "cli": "./cli.js",
   "bin": {
-      "pp": "node ./pipe.js 8000"
+      "fcpipe": "./bin/pipe"
   },
   "dependencies": {
     "http-proxy": ">=0.10"
