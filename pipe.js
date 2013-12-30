@@ -12,7 +12,7 @@ exports.proxyList = require('./config');
 exports.router = require('./router');
 
 // 根据请求url动态解析代理参数
-function proxyPass(url) {
+function proxyPass(url, rqhost) {
     var proxyList = exports.proxyList;
     var router = exports.router;
 
@@ -36,7 +36,6 @@ function proxyPass(url) {
             config.host = item.host;
             config.port = item.port;
             config.url = url;
-            
         }
 
         if (pass && item.replace) {
@@ -48,9 +47,16 @@ function proxyPass(url) {
             console.log(idx, config.url);
         }
 
+        if (item.host == 'dynamic-host' && rqhost) {
+            console.log(rqhost);
+            item.host = rqhost;
+        }
+
         if (item.host in router) {
             config.host = router[item.host];
-            config.qhost = item.host + ':' + item.port;
+            if (item.host != 'static-host') {
+                config.qhost = item.host + ':' + item.port;
+            }
         }
     });
 
@@ -73,7 +79,9 @@ var proxy = new httpProxy.RoutingProxy();
  */
 exports.start = function(port) {
     http.createServer(function(request, response) {
-        var proxyConfig = proxyPass(request.url);
+        var headers = request.headers;
+        var rqhost = headers.host && headers.host.replace(/:\d+/, '');
+        var proxyConfig = proxyPass(request.url, rqhost);
 
         // 伪造host
         if (proxyConfig.qhost) {
@@ -85,6 +93,8 @@ exports.start = function(port) {
         if (proxyConfig.url) {
             request.url = proxyConfig.url;
         }
+
+        console.log(proxyConfig);
 
         // 处理代理请求
         proxy.proxyRequest(request, response, proxyConfig);

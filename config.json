@@ -22,7 +22,7 @@
     },
     {
         "path": "/",
-        "host": "fc-offline.baidu.com",
+        "host": "dynamic-host",
         "port": 8000
     }
 ]
