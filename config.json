@@ -14,6 +14,13 @@
         "port": 8848
     },
     {
+        "path": "/nirvana/asset/module/",
+        "replace": ["/nirvana/asset", "/nirvana-workspace/nirvana/src"],
+        "nostamp": true,
+        "host": "static-host",
+        "port": 8848
+    },
+    {
         "path": "/nirvana/asset/bizCommon/",
         "replace": ["/nirvana/asset", "/nirvana-workspace/nirvana/src"],
         "nostamp": true,
@@ -21,8 +28,22 @@
         "port": 8848
     },
     {
+        "path": "/nirvana/log/fclogimg.gif",
+        "replace": ["/nirvana/log/fclogimg.gif"
+            , "/nirvana-workspace/nirvana/src/common/img/favicon.ico"],
+        "nostamp": true,
+        "host": "static-host",
+        "port": 8848
+    },
+    {
+        "path": "/nirvana/src/common/img/",
+        "replace": ["/nirvana/src/", "/nirvana/asset/"],
+        "host": "fc-offline.baidu.com",
+        "port": 8000
+    },
+    {
         "path": "/",
-        "host": "dynamic-host",
+        "host": "fc-offline.baidu.com",
         "port": 8000
     }
 ]
