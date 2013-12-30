@@ -16,9 +16,11 @@
  浏览器端必须绑定host到pipe服务器, 绑定方式可以改host文件，也可以使用proxy插件；或者自定义PAC文件(建议方式)
  * 访问不同的host会将请求转发到不同的机器; 如果fctest和fc-offline要重新绑定参考后面的router配置
 
-      127.0.0.1 fc-offline.baidu.com
-      127.0.0.1 fctest.baidu.com
-      127.0.0.1 mock-host
+    127.0.0.1 fc-offline.baidu.com
+
+    127.0.0.1 fctest.baidu.com
+
+    127.0.0.1 mock-host
 
  * 启动代理服务器, 需要全局安装`-g`
 
