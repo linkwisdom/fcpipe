@@ -23,6 +23,11 @@ function proxyPass(url, rqhost) {
 
     var pass = false;
 
+    // 添加对模板的处理 (修改后缀即可，其它工作留给后面的配置)
+    if (url.match(/\/nirvana\/asset\/.*\d+.html/g)) {
+        url = url.replace('.html', '.js');
+    }
+
     proxyList.forEach(function(item, idx) {
         if (pass) {
             return;

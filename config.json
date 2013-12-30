@@ -38,12 +38,18 @@
     {
         "path": "/nirvana/src/common/img/",
         "replace": ["/nirvana/src/", "/nirvana/asset/"],
-        "host": "fc-offline.baidu.com",
+        "host": "dynamic-host",
+        "port": 8000
+    },
+    {
+        "path": "/nirvana/src/common/swf/",
+        "replace": ["/nirvana/src/", "/nirvana/asset/"],
+        "host": "dynamic-host",
         "port": 8000
     },
     {
         "path": "/",
-        "host": "fc-offline.baidu.com",
+        "host": "dynamic-host",
         "port": 8000
     }
 ]
