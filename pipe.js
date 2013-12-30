@@ -48,7 +48,6 @@ function proxyPass(url, rqhost) {
         }
 
         if (item.host == 'dynamic-host' && rqhost) {
-            console.log(rqhost);
             item.host = rqhost;
         }
 
@@ -93,8 +92,6 @@ exports.start = function(port) {
         if (proxyConfig.url) {
             request.url = proxyConfig.url;
         }
-
-        console.log(proxyConfig);
 
         // 处理代理请求
         proxy.proxyRequest(request, response, proxyConfig);
