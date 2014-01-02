@@ -1,4 +1,4 @@
-exports.port = 8123;
+exports.port = 8000;
 
 exports.router = {
     "static-host": "127.0.0.1",
