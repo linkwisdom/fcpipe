@@ -1,6 +1,6 @@
-#!/usr/bin/env node
+#! /usr/bin/env node
 
-var pipe = require('../pipe');
+var pipe = require('fcpipe')
 var argv = process.argv;
 
 if (argv.length < 3) {

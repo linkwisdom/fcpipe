@@ -32,36 +32,47 @@
 * 前向代理，按url解析将静态资源重定向到前端开发的edp服务器；权限验证和ajax服务重定向到BFE支持的fctest或fc-offline机器
 
 ## 自定义配置
+- 如果默认配置无法满足需求，建议创建自定义配置文件
+- 在当前启动目录或父级目录下建立fcpipe-config.js文件, 配置如下程序
+- 各个配置项目如果没有配置会用默认配置替代
 
-    var pipe = require('fcpipe');
+    exports.port = 8123;
 
-    pipe.router = {
+    exports.router = {
         "static-host": "127.0.0.1",
         "fctest.baidu.com": "10.26.58.12",
-        "fc-offline.baidu.com": "10.48.236.52"
+        "fc-offline.baidu.com": "10.48.236.52",
+        "fengchao.baidu.com": "10.81.35.167"
     };
 
-    pipe.proxyList = [
+    // 配置支持正则表达式
+    exports.proxyList = [
         {
-            "path": "/nirvana/asset/aoPackage/",
+            "path": /\/nirvana\/asset\/.*\.js/gi,
             "replace": ["/nirvana/asset", "/nirvana-workspace/nirvana/src"],
             "nostamp": true,
             "host": "static-host",
             "port": 8848
         },
         {
-            "path": "/nirvana/asset/easyManage/",
-            "replace": ["/nirvana/asset", "/nirvana-workspace/nirvana/src"],
+            "path": "/nirvana/log/fclogimg.gif",
+            "replace": ["/nirvana/log/fclogimg.gif"
+                , "/nirvana-workspace/nirvana/src/common/img/favicon.ico"],
             "nostamp": true,
             "host": "static-host",
             "port": 8848
         },
         {
-            "path": "/nirvana/asset/bizCommon/",
-            "replace": ["/nirvana/asset", "/nirvana-workspace/nirvana/src"],
-            "nostamp": true,
-            "host": "static-host",
-            "port": 8848
+            "path": "/nirvana/src/common/img/",
+            "replace": ["/nirvana/src/", "/nirvana/asset/"],
+            "host": "dynamic-host",
+            "port": 8000
+        },
+        {
+            "path": "/nirvana/src/common/swf/",
+            "replace": ["/nirvana/src/", "/nirvana/asset/"],
+            "host": "dynamic-host",
+            "port": 8000
         },
         {
             "path": "/",
@@ -69,7 +80,3 @@
             "port": 8000
         }
     ];
-
-    pipe.start(8000);
-
-** 如果默认配置不能满足你的需求，可以自定义代理; 如LESS处理,ajax转发等;***

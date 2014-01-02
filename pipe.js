@@ -8,8 +8,8 @@
 var httpProxy = require('http-proxy');
 var http = require('http');
 
-exports.proxyList = require('./config');
-exports.router = require('./router');
+var DEFAULT_CONF_FILE = 'fcpipe-config.js';
+var defaultConfig = require('./fcpipe-config.js');
 
 // 根据请求url动态解析代理参数
 function proxyPass(url, rqhost) {
@@ -53,7 +53,11 @@ function proxyPass(url, rqhost) {
         }
 
         if (item.host == 'dynamic-host' && rqhost) {
-            item.host = rqhost;
+            item.host = (rqhost in router)
+                ? rqhost
+                : 'fc-offline.baidu.com';
+
+            console.log(item.host, url);
         }
 
         if (item.host in router) {
@@ -82,6 +86,27 @@ var proxy = new httpProxy.RoutingProxy();
  *    node pipe.js
  */
 exports.start = function(port) {
+    var dirname = __dirname;
+
+    var pipeConfig = loadConf(DEFAULT_CONF_FILE);
+
+    if (pipeConfig && pipeConfig.proxyList) {
+        exports.proxyList = pipeConfig.proxyList;
+    }
+
+    if (pipeConfig && pipeConfig.router) {
+        exports.router = pipeConfig.router;
+    }
+
+    if (pipeConfig && pipeConfig.port) {
+        exports.port = pipeConfig.port;
+    }
+    
+    console.log({
+        port: exports.port,
+        curDir: __dirname
+    });
+
     http.createServer(function(request, response) {
         var headers = request.headers;
         var rqhost = headers.host && headers.host.replace(/:\d+/, '');
@@ -103,9 +128,46 @@ exports.start = function(port) {
     }).listen(port || 8000);
 };
 
+
+/**
+ * 加载配置文件
+ */
+function loadConf( confFile ) {
+    var fs = require( 'fs' );
+    var path = require( 'path' );
+    var cwd = process.cwd();
+
+    if (confFile) {
+        confFile = path.resolve(cwd, confFile);
+        if (fs.existsSync(confFile)) {
+            return require(confFile);
+        }
+    }
+    
+    var dir;
+    var parentDir = cwd;
+    do {
+        dir = parentDir;
+        confFile = path.resolve( dir, DEFAULT_CONF_FILE );
+        if ( fs.existsSync( confFile ) ) {
+            return require( confFile );
+        }
+
+        parentDir = path.resolve( dir, '..' );
+    } while ( parentDir != dir );
+
+    // 如果寻址不到，使用默认配置
+    return defaultConfig;
+}
+
 // test hold
 var argv = process.argv;
-if (argv.length > 2 && argv[1] == __filename) {
-    var port = +argv[2];
+if (argv[1] == __filename) {
+    var port = exports.port || 8000;
+
+    if( argv.length > 2) {
+        port = argv[2]
+    }
+
     exports.start(port);
 }
