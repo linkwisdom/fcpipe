@@ -10,6 +10,9 @@
 
     npm install git://github.com/linkwisdom/fcpipe.git -g
 
+ * 更新版本
+
+   npm update fcpipe -g
 
 ## 使用方法
  * 绑定客户端host (ip, domain) 为了防止cookie等权限因素；
@@ -22,9 +25,9 @@
 
     127.0.0.1 mock-host
 
- * 启动代理服务器, 需要全局安装`-g`
+ * 启动代理服务器, 默认8000端口
 
-    fcpipe
+    fcpipe [port]
 
  
  ## 原理

@@ -8,10 +8,10 @@
 var httpProxy = require('http-proxy');
 var http = require('http');
 
+global.pipe = require('./extends.js');
+
 var DEFAULT_CONF_FILE = 'fcpipe-config.js';
 var defaultConfig = require('./fcpipe-config.js');
-
-global.pipe = require('./extends.js');
 
 // 根据请求url动态解析代理参数
 function proxyPass(url, rqhost) {
