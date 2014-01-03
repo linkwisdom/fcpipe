@@ -39,6 +39,7 @@
 - 在当前启动目录或父级目录下建立fcpipe-config.js文件, 配置如下程序
 - 各个配置项目如果没有配置会用默认配置替代
 
+
     exports.port = 8000;
 
     exports.router = {
@@ -49,6 +50,7 @@
     };
 
     exports.proxyList = [
+
         {
             "path": /\/nirvana\/asset\/aoPackage.*\.js/g,
             "replace": ["/nirvana/asset", "/nirvana-workspace/nirvana/src"],
@@ -56,6 +58,7 @@
             "host": "static-host",
             "port": 8848
         },
+
         // 需要依赖加载的模板文件, 可自定义处理函数
         {
             "path": /\/nirvana\/asset\/aoPackage.*tpl\.html/g,
@@ -64,6 +67,7 @@
             "host": "static-host",
             "port": 8848
         },
+
         {
             "path": "/",
             "host": "dynamic-host",
