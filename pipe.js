@@ -11,6 +11,8 @@ var http = require('http');
 var DEFAULT_CONF_FILE = 'fcpipe-config.js';
 var defaultConfig = require('./fcpipe-config.js');
 
+global.pipe = require('./extends.js');
+
 // 根据请求url动态解析代理参数
 function proxyPass(url, rqhost) {
     var proxyList = exports.proxyList;
@@ -23,11 +25,6 @@ function proxyPass(url, rqhost) {
 
     var pass = false;
 
-    // 添加对模板的处理 (修改后缀即可，其它工作留给后面的配置)
-    if (url.match(/\/nirvana\/asset\/.*\d+.html/g)) {
-        url = url.replace('.html', '.js');
-    }
-
     proxyList.forEach(function(item, idx) {
         if (pass) {
             return;
@@ -37,33 +34,41 @@ function proxyPass(url, rqhost) {
         pass = (('string' != typeof path) && url.match(path))
             || (('string' == typeof path) && url.indexOf(path) > -1);
 
-        if (pass) {
-            config.host = item.host;
-            config.port = item.port;
-            config.url = url;
+        if (!pass) {
+            return;
         }
 
-        if (pass && item.replace) {
+        config.host = item.host;
+        config.port = item.port;
+        config.url = url;
+
+        if (rqhost == 'localhost') {
+            rqhost = 'fc-offline.baidu.com';
+        }
+
+        if (item.replace) {
             config.url = config.url.replace(item.replace[0], item.replace[1]);
         }
 
-        if (pass && item.nostamp) {
+        if (item.nostamp) {
             config.url = config.url.replace(/_\d+/g, '');
-            console.log(idx, config.url);
         }
 
-        if (item.host == 'dynamic-host' && rqhost) {
-            item.host = (rqhost in router)
-                ? rqhost
-                : 'fc-offline.baidu.com';
-
-            console.log(item.host, url);
+        if (item.host == 'dynamic-host') {
+            item.host = rqhost;
         }
 
         if (item.host in router) {
             config.host = router[item.host];
             if (item.host != 'static-host') {
                 config.qhost = item.host + ':' + item.port;
+            }
+        }
+
+        if (item.handler) {
+            config = item.handler(config);
+            if (!config && config.url) {
+                return;
             }
         }
     });
@@ -102,10 +107,7 @@ exports.start = function(port) {
         exports.port = pipeConfig.port;
     }
     
-    console.log({
-        port: exports.port,
-        curDir: __dirname
-    });
+    console.log('pipe on port :' + port);
 
     http.createServer(function(request, response) {
         var headers = request.headers;
