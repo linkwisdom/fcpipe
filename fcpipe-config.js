@@ -15,14 +15,6 @@ exports.proxyList = [
         "host": "static-host",
         "port": 8848
     },
-    // 需要依赖加载的模板文件, 可自定义处理函数
-    {
-        "path": /\/nirvana\/asset\/aoPackage.*tpl\.html/g,
-        "replace": ["/nirvana/asset", "/nirvana-workspace/nirvana/src"],
-        "handler": pipe.getHtml(),
-        "host": "static-host",
-        "port": 8848
-    },
     {
         "path": "/",
         "host": "dynamic-host",

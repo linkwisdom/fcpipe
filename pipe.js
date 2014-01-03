@@ -7,7 +7,6 @@
 
 var httpProxy = require('http-proxy');
 var http = require('http');
-
 global.pipe = require('./extends.js');
 
 var DEFAULT_CONF_FILE = 'fcpipe-config.js';
@@ -37,10 +36,21 @@ function proxyPass(url, rqhost) {
         if (!pass) {
             return;
         }
+        
+        config.url = url;
+        if (item.content) {
+            config.host = rqhost;
+
+            if ('function' == typeof item.content) {
+                config.content = item.content(config);
+            } else {
+                config.content = item.content;
+            }
+            return;
+        }
 
         config.host = item.host;
         config.port = item.port;
-        config.url = url;
 
         if (rqhost == 'localhost') {
             rqhost = 'fc-offline.baidu.com';
@@ -113,6 +123,12 @@ exports.start = function(port) {
         var headers = request.headers;
         var rqhost = headers.host && headers.host.replace(/:\d+/, '');
         var proxyConfig = proxyPass(request.url, rqhost);
+
+        if (proxyConfig.content) {
+            console.log(proxyConfig.content);
+            response.end(proxyConfig.content);
+            return;
+        }
 
         // 伪造host
         if (proxyConfig.qhost) {

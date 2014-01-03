@@ -37,6 +37,8 @@
 - 如果默认配置无法满足需求，建议创建自定义配置文件
 - 在当前启动目录或父级目录下建立fcpipe-config.js文件, 配置如下程序
 - 各个配置项目如果没有配置会用默认配置替代
+- 增加了请求劫持，自定义返回内容；
+- 增加了自定义返回内容
 
 <code>
     
@@ -53,14 +55,6 @@
             "path": /\/nirvana\/asset\/aoPackage.*\.js/g,
             "replace": ["/nirvana/asset", "/nirvana-workspace/nirvana/src"],
             "nostamp": true,
-            "host": "static-host",
-            "port": 8848
-        },
-        
-        {
-            "path": /\/nirvana\/asset\/aoPackage.*tpl\.html/g,
-            "replace": ["/nirvana/asset", "/nirvana-workspace/nirvana/src"],
-            "handler": pipe.getHtml(),
             "host": "static-host",
             "port": 8848
         },
