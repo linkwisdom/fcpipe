@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Fcpipe : fcpipe , 前后端联调工具" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Fcpipe</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/linkwisdom/fcpipe">View on GitHub</a>
+
+          <h1 id="project_title">Fcpipe</h1>
+          <h2 id="project_tagline">fcpipe , 前后端联调工具</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/linkwisdom/fcpipe/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/linkwisdom/fcpipe/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="fcpipe-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E" class="anchor" href="#fcpipe-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E"><span class="octicon octicon-link"></span></a>fcpipe 使用说明</h1>
+
+<h2>
+<a name="%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95" class="anchor" href="#%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95"><span class="octicon octicon-link"></span></a>安装方法</h2>
+
+<ul>
+<li>
+<p>npm 安装</p>
+
+<p>npm install fcpipe -g</p>
+</li>
+<li>
+<p>github获取安装</p>
+
+<p>npm install git://github.com/linkwisdom/fcpipe.git -g</p>
+</li>
+<li>
+<p>更新版本</p>
+
+<p>npm update fcpipe -g</p>
+</li>
+</ul><h2>
+<a name="%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95" class="anchor" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="octicon octicon-link"></span></a>使用方法</h2>
+
+<ul>
+<li>绑定客户端host (ip, domain) 为了防止cookie等权限因素；
+浏览器端必须绑定host到pipe服务器, 绑定方式可以改host文件，也可以使用proxy插件；或者自定义PAC文件(建议方式)</li>
+<li>
+<p>访问不同的host会将请求转发到不同的机器; 如果fctest和fc-offline要重新绑定参考后面的router配置</p>
+
+<p>127.0.0.1 fc-offline.baidu.com</p>
+
+<p>127.0.0.1 fctest.baidu.com</p>
+
+<p>127.0.0.1 mock-host</p>
+</li>
+<li>
+<p>启动代理服务器, 默认8000端口</p>
+
+<p>fcpipe [port]</p>
+
+<h2>
+<a name="%E5%8E%9F%E7%90%86" class="anchor" href="#%E5%8E%9F%E7%90%86"><span class="octicon octicon-link"></span></a>原理</h2>
+</li>
+</ul><ul>
+<li>前向代理，按url解析将静态资源重定向到前端开发的edp服务器；权限验证和ajax服务重定向到BFE支持的fctest或fc-offline机器</li>
+</ul><h2>
+<a name="%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE" class="anchor" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE"><span class="octicon octicon-link"></span></a>自定义配置</h2>
+
+<ul>
+<li>如果默认配置无法满足需求，建议创建自定义配置文件</li>
+<li>在当前启动目录或父级目录下建立fcpipe-config.js文件, 配置如下程序</li>
+<li>各个配置项目如果没有配置会用默认配置替代</li>
+<li>增加了请求劫持，自定义返回内容；</li>
+<li>增加了自定义返回内容</li>
+</ul><p><code></code></p>
+
+<pre><code>exports.port = 8000;
+exports.router = {
+    "static-host": "127.0.0.1",
+    "fctest.baidu.com": "10.94.23.61",
+    "fc-offline.baidu.com": "10.48.236.52",
+    "fengchao.baidu.com": "10.81.35.167"
+};
+
+exports.proxyList = [
+    {
+        "path": /\/nirvana\/asset\/aoPackage.*\.js/g,
+        "replace": ["/nirvana/asset", "/nirvana-workspace/nirvana/src"],
+        "nostamp": true,
+        "host": "static-host",
+        "port": 8848
+    },
+    {
+        "path": "/",
+        "host": "dynamic-host",
+        "port": 8000
+    }
+];
+</code></pre>
+
+<p></p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Fcpipe maintained by <a href="https://github.com/linkwisdom">linkwisdom</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("fcpipe");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
