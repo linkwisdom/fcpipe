@@ -1,32 +1,47 @@
 {
-  "author": "liandong liu",
-  "contacts": ["liu@liandong.org"],
+  "author": {
+    "name": "liandong liu"
+  },
+  "contacts": [
+    "liu@liandong.org"
+  ],
   "name": "fcpipe",
   "description": "building a pipe between front to back ends",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "repository": {
     "type": "git",
     "url": "git://github.com/linkwisdom/fcpipe.git"
   },
-  "main": "./pipe.js",
+  "main": "./src/pipe.js",
   "keywords": [
     "mock",
     "proxy",
     "edp"
   ],
-  "cli": "./cli.js",
+  "cli": "./src/cli.js",
   "bin": {
-      "fcpipe": "./bin/pipe"
+    "fcpipe": "./bin/pipe"
   },
   "dependencies": {
-    "http-proxy": ">=0.10"
+    "http-proxy": ">=0.10",
+    "mockjson": ">=0.0.2"
   },
   "engines": {
     "node": "*"
   },
   "scripts": {
-    "test": "node test.js"
+    "test": "node src/test.js"
   },
   "license": "BSD",
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "readme": "# fcpipe 使用说明\r\n\r\n## 安装方法\r\n * npm 安装\r\n\r\n    npm install fcpipe -g\r\n\r\n * github获取安装\r\n\r\n    npm install git://github.com/linkwisdom/fcpipe.git -g\r\n\r\n * 更新版本\r\n\r\n   npm update fcpipe -g\r\n\r\n## 使用方法\r\n * 绑定客户端host (ip, domain) 为了防止cookie等权限因素；\r\n 浏览器端必须绑定host到pipe服务器, 绑定方式可以改host文件，也可以使用proxy插件；或者自定义PAC文件(建议方式)\r\n * 访问不同的host会将请求转发到不同的机器; 如果fctest和fc-offline要重新绑定参考后面的router配置\r\n\r\n    127.0.0.1 fc-offline.baidu.com\r\n\r\n    127.0.0.1 fctest.baidu.com\r\n\r\n    127.0.0.1 mock-host\r\n\r\n * 启动代理服务器, 默认8000端口\r\n\r\n    fcpipe [port]\r\n\r\n \r\n ## 原理\r\n\r\n* 前向代理，按url解析将静态资源重定向到前端开发的edp服务器；权限验证和ajax服务重定向到BFE支持的fctest或fc-offline机器\r\n\r\n## 自定义配置\r\n- 如果默认配置无法满足需求，建议创建自定义配置文件\r\n- 在当前启动目录或父级目录下建立fcpipe-config.js文件, 配置如下程序\r\n- 各个配置项目如果没有配置会用默认配置替代\r\n- 增加了请求劫持，自定义返回内容；\r\n- 增加了自定义返回内容\r\n\r\n<code>\r\n    \r\n    exports.port = 8000;\r\n    exports.router = {\r\n        \"static-host\": \"127.0.0.1\",\r\n        \"fctest.baidu.com\": \"10.94.23.61\",\r\n        \"fc-offline.baidu.com\": \"10.48.236.52\",\r\n        \"fengchao.baidu.com\": \"10.81.35.167\"\r\n    };\r\n    \r\n    exports.proxyList = [\r\n        {\r\n            \"path\": /\\/nirvana\\/asset\\/aoPackage.*\\.js/g,\r\n            \"replace\": [\"/nirvana/asset\", \"/nirvana-workspace/nirvana/src\"],\r\n            \"nostamp\": true,\r\n            \"host\": \"static-host\",\r\n            \"port\": 8848\r\n        },\r\n        {\r\n            \"path\": \"/\",\r\n            \"host\": \"dynamic-host\",\r\n            \"port\": 8000\r\n        }\r\n    ];\r\n\r\n</code>\r\n",
+  "bugs": {
+    "url": "https://github.com/linkwisdom/fcpipe/issues"
+  },
+  "_id": "fcpipe@0.0.7",
+  "dist": {
+    "shasum": "352e70a649f449f0ece55ab59d6f9217dd5fbdf7"
+  },
+  "_from": "fcpipe@0.0.7",
+  "_resolved": "https://registry.npmjs.org/fcpipe/-/fcpipe-0.0.7.tgz"
 }

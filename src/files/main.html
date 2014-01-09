@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript">var  PR= {};PR.tc0 = new Date();</script>
+<meta charset="utf-8">
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+     Remove this if you use the .htaccess -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<link rel="shortcut icon" type="image/ico" href="src/common/img/favicon.ico" />
+
+<title>百度推广</title>
+<link rel="stylesheet" href="src/common/css/core.css">
+<link rel="stylesheet" href="src/common/css/nirvana.css">
+<link rel="stylesheet" href="src/common/css/common.less">
+<link rel="stylesheet" href="src/common/css/module.less">
+<link rel="stylesheet" href="dep/interactive/1.0.5/src/style.less">
+<link rel="stylesheet" href="dep/font-awesome/3.2.1/css/font-awesome.min.css">
+<!--[if IE 7]>
+  <link rel="stylesheet" href="dep/font-awesome/3.2.1/css/font-awesome-ie7.min.css">
+<![endif]-->
+
+<script type="text/javascript">PR.tc1 = new Date();</script>
+</head>
+<body>
+<div class="wrap" id="Wrapper">
+    <div class="head">
+        <a class="logo" id="Logo" href="http://www.baidu.com/shifen/content.php" target="_blank"><img alt="百度推广" title="百度推广" src="src/common/img/logo_main.png"></a>
+        <div class="nav_main hide" id="NavMain">
+            <ul>
+                <li class="homepage"><a id="NavMainHome" href="#" title="首页" data-log="{target:'navMainHome_btn'}">首页</a></li>
+                <li class="account"><a id="NavMainAccount" href="#" title="账户中心" data-log="{target:'navMainAccount_btn'}">账户中心</a></li>
+                <li class="finance"><a id="NavMainFinance" href="#" title="财务" data-log="{target:'navMainFinance_btn'}">财务</a></li>
+                <li class="overview"><a id="NavMainOverview" href="#" title="便捷管理" data-log="{target:'navMainOverview_btn'}">便捷管理</a></li>
+                <li class="manage"><a id="NavMainManage" href="#" title="推广管理" data-log="{target:'navMainManage_btn'}">推广管理</a></li>
+     <!--           <li class="navlab"><a id="NavMainLab" href="#" title="高级工具" data-log="{target:'navMainLab_btn'}">高级工具</a></li>-->
+            </ul>
+            <div id="MobileIntro" class="hide">
+                <span class="android_jumping">&nbsp;</span>
+                <a href="http://mobile2.baidu.com/" target="_blank" title="百度推广-手机版全面升级" data-log="{target:'mobile_portal_btn'}">百度推广-手机版全面升级</a>
+                <a href="http://yingxiao.baidu.com/support/topic/104/" target="_blank" title="介绍视频" data-log="{target:'vidio_intro_btn'}">介绍视频</a>
+            </div>
+        </div>
+        <div class="nav_sub" id="NavSub">
+            <ul>
+                <li class="username noborder" id="NavSubUser"></li>
+                <li class="hide" id="NavSubMsg"></li>
+                <li class="contact">
+                    <a id="NavSubContact" href="#" data-log="{target:'navSubContact_lbl'}">联系百度</a>
+                    <ul>
+                        <li id="BridgeService" data-log="{target:'bridgeService_lbl'}"></li>
+                        <li><a id="NavSubContactService" href="#" target="_blank" data-log="{target:'navSubContactService_lbl'}">顾问信息</a></li>
+                        <li><a id="NavSubContactMsg" href="#" target="_blank" data-log="{target:'navSubContactMsg_lbl'}">留言</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a id="NavSubSpace" href="http://pro.baidu.com" target="_blank" title="营销中心" data-log="{target:'navSubSpace_lbl'}">营销中心</a>
+                </li>
+
+                <li>
+                    <a id="NavSubNewHelp" href="http://support.baidu.com" target="_blank" title="帮助" data-log="{target:'NavSubNewHelp_lbl'}">帮助</a>
+                </li>
+           <!--     <li class="hide" >
+                    <a id="NavSubFcManage" href="#" data-log="{target:'navSubFcManage_lbl'}">旧版搜索推广</a>
+                </li>-->
+                <li>
+                    <a id="NavSubLogout" href="http://www2.baidu.com/user/logout.php'" data-log="{target:'navSubLogout_lbl'}">安全退出</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="SideNav" class="hide">
+        <div ui="id:SideNav;type:SideNav;">
+            <div class="ui_sidenav_header">
+                <div id="SideNavFixed" class="ui_sidenav_fixed" data-log="{target:'fixed_sidenav_lbl'}"></div>
+                <div id="SideNavAutoHide" class="ui_sidenav_autohide" data-log="{target:'autoHide_sidenav_lbl'}"></div>
+                <h3>我的账户树</h3>
+            </div>
+            <div id="SideNavContent" class='ui_sidenav_content' ></div>
+            <div class='ui_sidenav_foot' ></div>
+        </div>
+    </div>
+
+    <div id='rightMain'>
+         <div id='upgrade-browser' class='hide'>
+            <span>系统监测到您的浏览器版本过低，将影响使用系统时的速度和稳定性，建议马上</span>
+            <a id='upgrade-browser-link' target="_blank"  data-log="{target:'nirvana_browser_upgrade_link_click',browser: 'ie7'}" href="http://yingxiao.baidu.com/topic/230/index.html">免费升级浏览器！</a>
+            <div class="his-dialog-close" id='his-dialog-close'></div>
+        </div>
+        <div id="Main">
+
+        <div class="loading_wrap" id="DefaultLoadingIcon">
+            <div class="loading loading_vertical"><img src="./src/common/img/loading.gif">正在读取数据，请稍候...</div>
+        </div>
+       </div>
+    </div>
+
+    <div class="foot" id="Foot"></div>
+    <div id="Toolbar">
+        <div ui="id:Toolbar;type:ToolBar;"></div>
+    </div>
+    <div id="Tools"></div>
+    <div id="FlashTip" class="hide flash_tip"></div>
+    <div id="BrowserTip" class="hide browser_tip"></div>
+</div>
+<div id="MobileNotice" class="hide"></div>
+<script src="http://s1.bdstatic.com/r/www/cache/ecom/esl/1-6-6/esl.js"></script>
+<script>
+    require.config({
+        'baseUrl': 'src',
+        'paths': {
+            'css': 'common/esl/css',
+            'js': 'common/esl/js',
+            'text': 'common/esl/text',
+            'tpl': 'common/esl/tpl',
+            'flags': 'common/flags/flags'
+        },
+        'packages': [
+            {
+                'name': 'echarts',
+                'location': '../dep/echarts/1.2.0/src',
+                'main': 'echarts'
+            },
+            {
+                'name': 'zrender',
+                'location': '../dep/zrender/1.0.3/src',
+                'main': 'zrender'
+            },
+            {
+                'name': 'er',
+                'location': '../dep/er/3.0.2/src',
+                'main': 'main'
+            },
+            {
+                'name': 'interactive',
+                'location': '../dep/interactive/1.0.5/src',
+                'main': 'main'
+            },
+            {
+                'name': 'font-awesome',
+                'location': '../dep/font-awesome/3.2.1/src'
+            },
+            {
+                'name': 'library',
+                'location': '../../../library/src'
+            },
+            {
+                'name': 'etpl',
+                'location': '../dep/etpl/2.0.6/src',
+                'main': 'main'
+            }
+        ],
+        'config': {
+            'flags': {
+                'devtoggle': true
+            }
+        }
+    });
+</script>
+<script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="src/common/js/core.js"></script>
+<script type="text/javascript" src="src/common/js/nirvana.js"></script>
+<script type="text/javascript" src="src/common/js/modules.js"></script>
+<script type="text/javascript" src="src/common/tpl/nirvana_tpl.js"></script>
+<script type="text/javascript">
+    PR.tc2 = new Date();
+    require(['main']);
+</script>
+</body>
+</html>

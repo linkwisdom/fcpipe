@@ -6,5 +6,10 @@ var argv = process.argv;
 if (argv.length < 3) {
     pipe.start(8000);
 } else {
-    pipe.start(+argv[2]);
+    if (+argv[2]) {
+        pipe.start(+argv[2]);
+    } else {
+        staticHost = argv[2];
+        pipe.start(8000, argv[2]);
+    }
 }

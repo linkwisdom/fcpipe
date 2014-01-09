@@ -1,68 +1,67 @@
 # fcpipe 使用说明
 
-## 安装方法
- * npm 安装
+
+## fcpipe 安装使用
+
+
+    
+第一步 安装
 
     npm install fcpipe -g
-
- * github获取安装
-
-    npm install git://github.com/linkwisdom/fcpipe.git -g
-
- * 更新版本
-
-   npm update fcpipe -g
-
-## 使用方法
- * 绑定客户端host (ip, domain) 为了防止cookie等权限因素；
- 浏览器端必须绑定host到pipe服务器, 绑定方式可以改host文件，也可以使用proxy插件；或者自定义PAC文件(建议方式)
- * 访问不同的host会将请求转发到不同的机器; 如果fctest和fc-offline要重新绑定参考后面的router配置
-
-    127.0.0.1 fc-offline.baidu.com
-
-    127.0.0.1 fctest.baidu.com
-
-    127.0.0.1 mock-host
-
- * 启动代理服务器, 默认8000端口
-
-    fcpipe [port]
-
- 
- ## 原理
-
-* 前向代理，按url解析将静态资源重定向到前端开发的edp服务器；权限验证和ajax服务重定向到BFE支持的fctest或fc-offline机器
-
-## 自定义配置
-- 如果默认配置无法满足需求，建议创建自定义配置文件
-- 在当前启动目录或父级目录下建立fcpipe-config.js文件, 配置如下程序
-- 各个配置项目如果没有配置会用默认配置替代
-- 增加了请求劫持，自定义返回内容；
-- 增加了自定义返回内容
-
-<code>
     
-    exports.port = 8000;
-    exports.router = {
-        "static-host": "127.0.0.1",
-        "fctest.baidu.com": "10.94.23.61",
-        "fc-offline.baidu.com": "10.48.236.52",
-        "fengchao.baidu.com": "10.81.35.167"
-    };
-    
-    exports.proxyList = [
-        {
-            "path": /\/nirvana\/asset\/aoPackage.*\.js/g,
-            "replace": ["/nirvana/asset", "/nirvana-workspace/nirvana/src"],
-            "nostamp": true,
-            "host": "static-host",
-            "port": 8848
-        },
-        {
-            "path": "/",
-            "host": "dynamic-host",
-            "port": 8000
-        }
-    ];
+    // 如有需要 更新fcpipe
+    npm update fcpipe- g
 
-</code>
+第二步 配置
+
+    - 如果默认配置满足需求可以跳过配置步骤
+
+    - 参考后面的配置说明
+
+第三步 启动服务
+
+    1. 启动本地edp服务
+    
+        确认访问路径 http://127.0.0.1:8848/nirvana-workspace/nirvana/main.html
+          
+        如果路径或端口不一致在配置文件中修改
+    
+    2. 首先进入你的项目目录
+        cd ~/../workspace/fc-ue/
+    
+    2. 打开命令行输入fcpipe命令即可
+
+       fcpipe
+
+第四步 验证
+    
+* 如访问的是 `fctest.baidu.com`
+    
+    浏览器访问 http://fctest.baidu.com:8000/nirvana/main.hmtl, 如果能够正常加载所有资源、并正常显示，配置成功了！
+
+* 注意
+
+- 所有前端source加载的都是你本地的源码
+- main.html被替换为默认页面，你也自定义main.html
+
+
+* 失败原因  
+    
+#### 如果失败，检查以下配置
+    
+- fctest.baidu.com绑定到127.0.0.1
+- fcpipe-config.js 中的router指定的ip和端口是否正确
+- fctest.badu.com是否在8000或指定端口正常启动
+- url路径是nirvana/main.html
+    
+
+## 自定义配置文件说明
+
+#### 默认配置
+- 静态资源地址http://localhost:8848/nirvana-workspace/nirvana/main.html可访问， 保证host,port和url都一致
+- 目标请求服务器的域名必须是fctest/fc-offline/fengchao等几个域名；端口默认是8000；部分RD的机器端口是8080时需要再单独设置
+
+#### 自定义配置
+- 自定义配置文件名为fcpipe-config.js; 存放路径必须是当前命令执行目录的位置或父级目录
+- 请参考 src/fcpipe-config.js 进行自定义配置
+- src/extension 定义了多种请求处理方法，你也可以在fcpipe-config.js中写自己的extension方法
