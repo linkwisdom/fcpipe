@@ -37,7 +37,7 @@
     
 * 如访问的是 `fctest.baidu.com`
     
-    浏览器访问 http://fctest.baidu.com:8000/nirvana/main.hmtl, 如果能够正常加载所有资源、并正常显示，配置成功了！
+    浏览器访问 http://fctest.baidu.com:8000/nirvana/main.html, 如果能够正常加载所有资源、并正常显示，配置成功了！
 
 * 注意
 
@@ -49,9 +49,9 @@
     
 #### 如果失败，检查以下配置
     
-- fctest.baidu.com绑定到127.0.0.1
+- fctest.baidu.com / fc-offline.baidu.com 绑定到127.0.0.1
 - fcpipe-config.js 中的router指定的ip和端口是否正确
-- fctest.badu.com是否在8000或指定端口正常启动
+- fctest.badu.com / fc-offline.baidu.com  是否在8000或指定端口正常启动
 - url路径是nirvana/main.html
     
 
