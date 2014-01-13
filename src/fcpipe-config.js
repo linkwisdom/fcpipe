@@ -1,4 +1,5 @@
 exports.port = 8000;
+exports.mod = 'backend';
 
 exports.router = {
     'static-host': '127.0.0.1',
@@ -7,50 +8,29 @@ exports.router = {
     'fengchao.baidu.com': '10.81.35.167'
 };
 
-exports.proxyList = [
-    // 主页内容一定要改的
-    {
-        path : 'main.html',
-        handler: getFile('main.html')
-    },
-    // 请求dep文件
-    {
-        path: /^\/nirvana\/((dep)|(src))/,
-        handler: proxyStatic({
-            host: 'static-host',
-            replace: ['nirvana/', 'nirvana-workspace/nirvana/'],
-            port: 8848
-        })
-    },
-    // library路径
-    {
-        path: /^\/library/,
-        handler: proxyStatic({
-            host: 'static-host',
-            port: 8848
-        })
-    },
-    // debug 文件导向调试模块吧
-    {
-        path: 'debug/debug.js',
-        handler: function(context) {
-            context.content = '';
+// 静态代理规则
+// exports.proxyRules = [];
+
+
+// 动态代理规则, modType应该是历史依赖的
+var modType = 'dev';
+exports.getRules = function(request) {
+    var rules = require('./fengchao-rules');
+    if (request.url.indexOf('nirvana/main.html') > -1 ) {
+        if (request.url.indexOf('mod=debug') > -1) {
+            modType = 'debug';
+        } else if (request.url.indexOf('mod=dev') > -1
+            || request.url.indexOf('workspace') > -1
+        ) {
+            modType = 'dev';
+        } else {
+            modType = 'backend';
         }
-    },
-    // 在服务端打印日志
-    {
-        path: 'log/fclogimg.gif',
-        handler: logData(function(data) {
-            // 如果要做日志监控，在这里输出内容
-            // console.log(data);
-        })
-    },
-    // 其它事情都让后端去做吧
-    {
-        path: '/',
-        handler: proxyRequest({
-            host: 'dynamic-host',
-            port: 8000
-        })
     }
-];
+
+    if (modType in rules) {
+        return rules[modType];
+    } else {
+        return [];
+    }
+};

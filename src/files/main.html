@@ -167,7 +167,18 @@
 <script type="text/javascript" src="src/common/tpl/nirvana_tpl.js"></script>
 <script type="text/javascript">
     PR.tc2 = new Date();
-    require(['main']);
+
+    require(['main'], function() {
+        // if u want
+    });
+
+    // (function() {
+    //     var sessionStorage = nirvana.sessionStorage;
+    //     if (!sessionStorage.getItem('token')) {
+    //         location.href = 'login.html';
+    //         sessionStorage.setItem('token', true);
+    //     }
+    // })();
 </script>
 </body>
 </html>

@@ -1,7 +1,44 @@
 var httpProxy = require('http-proxy');
 var proxy = new httpProxy.RoutingProxy();
+var _SESSION = {};
 
 exports.defaultHost = 'fc-offline.baidu.com';
+
+exports.proxyTo = function(request, response, config) {
+    if (config.qhost) {
+        request.headers.host = config.qhost;
+    } else {
+        request.headers.host = 'fc-offline.baidu.com:8000';
+    }
+
+    proxy.proxyRequest(request, response, config);
+};
+
+exports.getSession = function(request) {
+    var costr = request.headers.cookie;
+    var cookie = {};
+    if (costr) {
+        costr.split(';').forEach(function( item ) {
+            var parts = item.split('=');
+            cookie[ parts[ 0 ].trim() ] = ( parts[ 1 ] || '' ).trim();
+        });
+    }
+
+    var _id =  cookie['BAIDUID'];
+
+    if (_id) {
+        if (!_SESSION[_id]) {
+            _SESSION[_id] = {
+                login: false,
+                count: 0
+            };
+        }
+
+        _SESSION[_id].cookie = cookie;
+        return _SESSION[_id];
+    }
+    return null;
+}
 
 /**
  * 代理静态资源
@@ -36,6 +73,7 @@ exports.proxyStatic = function(option) {
                 host: option.host,
                 port: option.port
             };
+            //console.log(request.url);
             proxy.proxyRequest(request, response, config);
             return true;
         }
@@ -114,6 +152,8 @@ exports.redirect = function(targetURL, backend) {
         response.writeHead(302, {
             Location: targetURL
         });
+        console.log(targetURL);
+        response.end('')
         return true;
         // do not response.end()
     }
@@ -135,37 +175,73 @@ exports.printJSON = function(data) {
  * - 如果文件不存在，会请求src/files下的默认文件
  * @param  {string} filePath 文件路径
  */
-exports.getFile = function(filePath) {
+
+exports.getFile = function(filePath, cwd) {
     var fs = require('fs');
     return function(context) {
         var response = context.response;
         var request = context.request;
-
         var fs = require( 'fs' );
         var path = require( 'path' );
-        var cwd = process.cwd();
+        cwd = cwd || process.cwd();
 
         if (filePath) {
-            var fp = path.resolve(cwd, filePath);
+            var existed = fs.existsSync(filePath);
+            var fp = filePath;
 
-            if (fs.existsSync(fp)) {
+            if (!existed) {
+                fp = path.resolve(cwd, filePath);
+                existed = fs.existsSync(fp);
+            }
+
+            if (existed && fs.statSync(fp).isDirectory()) {
+                var query = require('url').parse(request.url);
+                if (query.pathname) {
+                    _getFile(context, query.pathname, fp);
+                } else {
+                    response.write(filePath + 'is directory');
+                }
+                console.log('a');
+            } else if (existed) {
+                var stat = fs.stat
                 var bf = fs.readFileSync(fp);
-                response.write(bf.toString());
+                response.write(bf);
+                console.log('b');
                 return;
             } else {
-                cwd = path.resolve(__dirname, 'files');
-                fp = path.resolve(cwd, filePath);
+                var pwd = path.resolve(__dirname, 'files');
+                var fp = path.join(pwd, filePath);
+                var existed = fs.existsSync(fp);
 
-                if (fs.existsSync(fp)) {
-                    
+                if (existed && fs.statSync(fp).isDirectory()) {
+                    _getFile(context, fp);
+                    console.log(filePath, pwd);
+                } else if (existed) {
                     var bf = fs.readFileSync(fp);
-                    response.write(bf.toString());
+                    response.write(bf);
+                } else {
+                    var msg = {
+                        status: 404,
+                        pwd: pwd,
+                        cwd: cwd,
+                        url: context.request.url,
+                        file: fp
+                    };
+
+                    response.write(JSON.stringify(msg));
                 }
+                console.log('c');
             }
         }
         response.end('');
     }
 };
+
+// getFile 的辅助函数，为了读取目录
+function _getFile(context, filePath, cwd) {
+    var _func = exports.getFile(filePath, cwd);
+    _func(context);
+}
 
 exports.mockJSON = function(template, pkgData) {
     var mock = require('mockjson');
@@ -199,17 +275,3 @@ exports.logData = function(callback) {
         return true;
     }
 };
-
-
-exports.mockAjax = function(option) {
-    // var mockAjax = require('mockAjax');
-    // var mocklib = require(option.mockDir);
-
-    // return function(context, router) {
-    //     var response = context.response;
-    //     var request = context.request;
-    //     var path = /path=([\w\/]+)/.exec(request.url).pop();
-    //     response.end();
-    //     return true;
-    // }
-}
