@@ -152,7 +152,6 @@ exports.redirect = function(targetURL, backend) {
         response.writeHead(302, {
             Location: targetURL
         });
-        console.log(targetURL);
         response.end('')
         return true;
         // do not response.end()
@@ -201,12 +200,12 @@ exports.getFile = function(filePath, cwd) {
                 } else {
                     response.write(filePath + 'is directory');
                 }
-                console.log('a');
+
             } else if (existed) {
                 var stat = fs.stat
                 var bf = fs.readFileSync(fp);
                 response.write(bf);
-                console.log('b');
+
                 return;
             } else {
                 var pwd = path.resolve(__dirname, 'files');
@@ -215,7 +214,6 @@ exports.getFile = function(filePath, cwd) {
 
                 if (existed && fs.statSync(fp).isDirectory()) {
                     _getFile(context, fp);
-                    console.log(filePath, pwd);
                 } else if (existed) {
                     var bf = fs.readFileSync(fp);
                     response.write(bf);
@@ -230,7 +228,6 @@ exports.getFile = function(filePath, cwd) {
 
                     response.write(JSON.stringify(msg));
                 }
-                console.log('c');
             }
         }
         response.end('');

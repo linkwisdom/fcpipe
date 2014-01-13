@@ -7,7 +7,7 @@
   ],
   "name": "fcpipe",
   "description": "building a pipe between front to back ends",
-  "version": "0.0.8",
+  "version": "0.0.11",
   "repository": {
     "type": "git",
     "url": "git://github.com/linkwisdom/fcpipe.git"
@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "http-proxy": ">=0.10",
-    "mockjson": ">=0.0.2"
+    "mockjson": ">=0.0.3"
   },
   "engines": {
     "node": "*"
@@ -38,10 +38,10 @@
   "bugs": {
     "url": "https://github.com/linkwisdom/fcpipe/issues"
   },
-  "_id": "fcpipe@0.0.7",
+  "_id": "fcpipe@0.0.11",
   "dist": {
     "shasum": "352e70a649f449f0ece55ab59d6f9217dd5fbdf7"
   },
-  "_from": "fcpipe@0.0.7",
-  "_resolved": "https://registry.npmjs.org/fcpipe/-/fcpipe-0.0.7.tgz"
+  "_from": "fcpipe@0.0.11",
+  "_resolved": "https://registry.npmjs.org/fcpipe/-/fcpipe-0.0.11.tgz"
 }

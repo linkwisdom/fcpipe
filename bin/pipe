@@ -8,6 +8,5 @@ if (argv.length < 3) {
 } else if (argv.length < 4) {
     pipe.start(+argv[2]);
 } else {
-    console.log(argv[3]);
     pipe.start(+argv[2], argv[3]);
 }
