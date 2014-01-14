@@ -172,13 +172,16 @@
         // if u want
     });
 
-    // (function() {
-    //     var sessionStorage = nirvana.sessionStorage;
-    //     if (!sessionStorage.getItem('token')) {
-    //         location.href = 'login.html';
-    //         sessionStorage.setItem('token', true);
-    //     }
-    // })();
+    (function() {
+        var sessionStorage = nirvana.sessionStorage;
+        setTimeout(function() {
+            if (nirvana.env.ACC) {
+                sessionStorage.setItem('__acc', nirvana.env.ACC);
+            } else {
+                location.href = 'login.html';
+            }
+        }, 5000);
+    })();
 </script>
 </body>
 </html>

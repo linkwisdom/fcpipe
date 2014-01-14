@@ -4,7 +4,7 @@ var pipe = require('fcpipe')
 var argv = process.argv;
 
 if (argv.length < 3) {
-    pipe.start(8000);
+    pipe.start();
 } else if (argv.length < 4) {
     pipe.start(+argv[2]);
 } else {

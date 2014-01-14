@@ -1,19 +1,19 @@
 # fcpipe 使用说明
 
-### 第一步 安装
+## 第一步 安装
 
     npm install fcpipe -g
     
     // 如有需要 更新fcpipe
     npm update fcpipe- g
 
-### 第二步 配置
+## 第二步 配置
 
     - 如果默认配置满足需求可以跳过配置步骤
     - 参考后面的配置说明
 
 
-### 第三步 启动服务
+## 第三步 启动服务
 
     1. 启动本地edp服务
         edp ws start
@@ -25,7 +25,7 @@
        fcpipe
 
  
-### 第四步 验证
+## 第四步 验证
 
     1. 访问本地开发环境
     http://fctest.baidu.com:8000/nirvana-workspace/nirvana/main.html
@@ -44,11 +44,13 @@
 
 ## 自定义配置文件说明
 
-#### 默认配置
+### 默认配置
+
 - 静态资源地址http://localhost:8848/nirvana-workspace/nirvana/main.html可访问， 保证host,port和url都一致
 - 目标请求服务器的域名必须是fctest/fc-offline/fengchao等几个域名；端口默认是8000；部分RD的机器端口是8080时需要再单独设置
 
-#### 自定义配置
+### 自定义配置
+
 - 自定义配置文件名为fcpipe-config.js; 存放路径必须是当前命令执行目录的位置或父级目录
 - 请参考 src/fcpipe-config.js 进行自定义配置
 - src/extension 定义了多种请求处理方法，你也可以在fcpipe-config.js中写自己的extension方法

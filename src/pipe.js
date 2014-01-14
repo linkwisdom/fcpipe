@@ -14,9 +14,7 @@ for (var ext in extension) {
 }
 
 var DEFAULT_CONF_FILE = 'fcpipe-config.js';
-var defaultConfig = require('./fcpipe-config.js');
-
-//exports.defaultHost = 'fc-offline.baidu.com';
+var defaultConfig = require('./fcpipe-config');
 
 /**
  * 启动服务
@@ -26,6 +24,7 @@ var defaultConfig = require('./fcpipe-config.js');
 exports.start = function(port, proxyServer) {
     var rules = [];
 
+    // 直接 fcpipe 8080 www.baidu.com 实现代理
     if ('string' == typeof proxyServer) {
         var arr = proxyServer.split(':');
         proxyServer = {
@@ -35,7 +34,6 @@ exports.start = function(port, proxyServer) {
     }
 
     exports.port = port;
-    var dirname = __dirname;
 
     var pipeConfig = loadConf(DEFAULT_CONF_FILE);
 
@@ -62,11 +60,12 @@ exports.start = function(port, proxyServer) {
             return;
         }
 
-        // 把动态代理规则集合的工作交给业务层去做
-        if (pipeConfig.getRules) {
-            rules = pipeConfig.getRules(request);
-        } else if (pipeConfig.proxyRules) {
+        // 注意静态规则优先
+        if (pipeConfig.proxyRules) {
             rules = pipeConfig.proxyRules;
+        } else if (pipeConfig.getRules) {
+            // 把动态代理规则集合的工作交给业务层去做
+            rules = pipeConfig.getRules(request);
         }
 
         var context = {
@@ -90,11 +89,12 @@ function loadConf( confFile ) {
     var fs = require( 'fs' );
     var path = require( 'path' );
     var cwd = process.cwd();
+    var extConf = {};
 
     if (confFile) {
         confFile = path.resolve(cwd, confFile);
         if (fs.existsSync(confFile)) {
-            return require(confFile);
+            extConf = require(confFile);
         }
     }
     
@@ -104,14 +104,21 @@ function loadConf( confFile ) {
         dir = parentDir;
         confFile = path.resolve( dir, DEFAULT_CONF_FILE );
         if ( fs.existsSync( confFile ) ) {
-            return require( confFile );
+            extConf = require( confFile );
         }
 
         parentDir = path.resolve( dir, '..' );
     } while ( parentDir != dir );
 
+    // 支持扩展，而不是覆盖
+    for (var item in defaultConfig) {
+        if (! (item in extConf)) {
+            extConf[item] = defaultConfig[item];
+        }
+    }
+
     // 如果寻址不到，使用默认配置
-    return defaultConfig;
+    return extConf;
 }
 
 // test hold

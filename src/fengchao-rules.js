@@ -38,22 +38,11 @@ exports.debug = [
             port: 8848
         })
     },
-    // 登录调转页面
+    // // 登录调转页面
     {
         path: 'login.html',
         handler: getFile('login.html')
     },
-    // 如果请求是传castk，不要拦截改请求
-    {
-        path : 'castk=',
-        handler: sendToEnd
-    },
-    // 利用这个请求来做个jumbo
-    {
-        path: '/asset/common/js/core',
-        handler: getFile('jumb.js')
-    },
-    // 请求dep文件
     // 在服务端打印日志
     {
         path: 'log/fclogimg.gif',
@@ -77,8 +66,8 @@ exports.dev = [
     },
     {
         path: '/',
-        handler: proxyStatic({
-            host: 'localhost',
+        handler: proxyRequest({
+            host: 'static-host',
             port: 8848
         })
     }

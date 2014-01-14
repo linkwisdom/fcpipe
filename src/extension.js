@@ -38,7 +38,7 @@ exports.getSession = function(request) {
         return _SESSION[_id];
     }
     return null;
-}
+};
 
 /**
  * 代理静态资源
@@ -61,7 +61,8 @@ exports.proxyStatic = function(option) {
 
         // url替换规则
         if (option.replace) {
-            request.url = request.url.replace(option.replace[0], option.replace[1]);
+            request.url = request.url.replace(
+                option.replace[0], option.replace[1]);
         }
 
         if (option.host in router) {
@@ -73,7 +74,7 @@ exports.proxyStatic = function(option) {
                 host: option.host,
                 port: option.port
             };
-            //console.log(request.url);
+
             proxy.proxyRequest(request, response, config);
             return true;
         }
@@ -84,7 +85,8 @@ exports.proxyStatic = function(option) {
  * 代理服务端资源或请求
  * @param  {object} option 代理配置
  *    replace: [source, target] 对url进行替换
- *    host: 请求域名/ip; 如果是router指定的解析；采用router中的ip替换
+ *    host: 请求域名/ip; 
+ *        如果是router指定的解析；采用router中的ip替换
  *    port: 代理端口
  */
 exports.proxyRequest = function(option) {
@@ -94,8 +96,6 @@ exports.proxyRequest = function(option) {
         var headers = request.headers;
         var rqhost = headers.host && headers.host.replace(/:\d+/, '');
 
-        var url = request.url;
-
         // 如果请求domain不在列表中，强制转为最后一种
         if (!(rqhost in router)) {
             rqhost = exports.defaultHost;
@@ -103,7 +103,8 @@ exports.proxyRequest = function(option) {
 
         // url替换规则
         if (option.replace) {
-            request.url = request.url.replace(option.replace[0], option.replace[1]);
+            request.url = request.url.replace(
+                option.replace[0], option.replace[1]);
         }
 
         // 如果是远程host修改为请求host
@@ -122,6 +123,7 @@ exports.proxyRequest = function(option) {
                 host: option.host,
                 port: option.port
             };
+
             proxy.proxyRequest(request, response, config);
             return true;
         }
@@ -152,10 +154,9 @@ exports.redirect = function(targetURL, backend) {
         response.writeHead(302, {
             Location: targetURL
         });
-        response.end('')
+        response.end('');
         return true;
-        // do not response.end()
-    }
+    };
 };
 
 /**
@@ -166,15 +167,14 @@ exports.printJSON = function(data) {
     return function(context) {
         var response = context.response;
         response.write(JSON.stringify(data, '\t', 3));
-    }
+    };
 };
 
 /**
- * 从本地换取文件
+ * 从本地换取文件 (支持目录代理- 根据url解析文件名)
  * - 如果文件不存在，会请求src/files下的默认文件
  * @param  {string} filePath 文件路径
  */
-
 exports.getFile = function(filePath, cwd) {
     var fs = require('fs');
     return function(context) {
@@ -202,10 +202,8 @@ exports.getFile = function(filePath, cwd) {
                 }
 
             } else if (existed) {
-                var stat = fs.stat
                 var bf = fs.readFileSync(fp);
                 response.write(bf);
-
                 return;
             } else {
                 var pwd = path.resolve(__dirname, 'files');
@@ -231,7 +229,7 @@ exports.getFile = function(filePath, cwd) {
             }
         }
         response.end('');
-    }
+    };
 };
 
 // getFile 的辅助函数，为了读取目录
@@ -246,8 +244,8 @@ exports.mockJSON = function(template, pkgData) {
         mock.context = context;
         var data = mock.generate(template);
         context.content = JSON.stringify(data, '\t', 3);
-    }
-}
+    };
+};
 
 exports.logData = function(callback) {
     return function(context) {
@@ -268,7 +266,8 @@ exports.logData = function(callback) {
                 response.write(str);
             });
         }
+
         response.end();
         return true;
-    }
+    };
 };

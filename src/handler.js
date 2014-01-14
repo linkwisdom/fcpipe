@@ -1,7 +1,9 @@
+// 执行下一条规则
 global.nextRule = function(context) {
     context._next = true;
 };
 
+// 检查规则
 function passRule(item, context, router) {
     var request = context.request;
     var response = context.response;
@@ -55,7 +57,7 @@ function proxyPass(context, proxyList) {
         if (pass !== false) {
             return;
         }
-    };
+    }
 }
 
 exports.handle = function(context, proxyList) {

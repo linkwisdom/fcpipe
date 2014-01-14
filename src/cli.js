@@ -10,9 +10,8 @@ cli.description = '运行fcpipe服务';
 cli.usage = 'edp fcpipe [port]';
 
 cli.main = function(args, opts) {
-    console.log(args);
-    if (args.length > 0) {
-        pipe.start(+args[0]);
+    if (args.length > 1) {
+        pipe.start(+args[1]);
     } else {
         pipe.start(8000);
     }

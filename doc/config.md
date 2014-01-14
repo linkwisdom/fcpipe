@@ -1,61 +1,29 @@
-
-## fcpipe 安装使用
-
-
-    
-第一步 安装
-
-    npm install fcpipe -g
-    
-    // 如有需要 更新fcpipe
-    npm update fcpipe- g
-
-第二步 配置
-
-    1. 进入项目目录
-        cd ~/../workspace/fc-ue/
-        
-    2. 创建配置文件fcpipe-config.js
-        touch fcpipe-config.js
-        
-    3. 配置，参考 `自定义配置文件`
-
-第三步 启动服务
-
-    1. 启动本地edp服务
-    
-        确认访问路径 http://127.0.0.1:8848/nirvana-workspace/nirvana/main.html
-          
-        如果路径或端口不一致在配置文件中修改
-    
-    2. 首先进入你的项目目录
-        cd ~/../workspace/fc-ue/
-    
-    // 启动
-    fcpipe
-    
-    // 如果目标服务器端口不是8000, 需要指定端口，或在配置文件中指定
-    
-    fcpipe 8080
-    
-    3. 验证
-    
-    // 如访问的是fctest.baidu.com
-    
-    浏览器访问 http://fctest.baidu.com:8000/nirvana/main.hmtl
-    
-    如果失败，检查以下配置
-    
-    - fctest.baidu.com绑定到127.0.0.1
-    - fcpipe-config.js 中的router指定的ip和端口是否正确
-    - fctest.badu.com是否在8000或指定端口正常启动
-    - url路径是nirvana/main.html
-    
-
 ## 自定义配置文件说明
+- fcpipe-config.js 是默认的配置文件名；位置目录必须是启动fcpipe的当前目录或父级目录
+- 自定义配置项包括
+ * port 端口
+ * router 路由表
+
+    exports.router = {
+        'static-host': '127.0.0.1', // static-host用于指定静态资源访问机器
+        'fctest.baidu.com': '10.94.23.61', // 动态资源根据来源host动态解析
+        'fc-offline.baidu.com': '10.48.236.52',
+        'fengchao.baidu.com':  '10.81.35.167'
+    };
+
+ * 静态规则proxyRules 或动态规则getRules函数
 
 
-    exports.proxyList = [
+### 配置样例
+
+    // fcpipe占用的端口, 一般要求与fc服务端口一致
+    exports.port = 8080;
+
+    // 动态规则使用getRules获取
+    // exports.getRules = function(context) {}
+
+    // 采用的是静态路由规则
+    exports.proxyRules = [
         // 主页内容一定要改的
         {
             path : 'main.html',
@@ -102,8 +70,3 @@
             })
         }
     ];
-
-## 其它补充
-
-- fcpipe-config.js 位置目录必须是启动fcpipe的当前目录或父级目录
-- 
