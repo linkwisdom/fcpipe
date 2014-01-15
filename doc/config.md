@@ -1,8 +1,15 @@
 ## 自定义配置文件说明
 - fcpipe-config.js 是默认的配置文件名；位置目录必须是启动fcpipe的当前目录或父级目录
 - 自定义配置项包括
- * port 端口
+ * port 端口 
+
+    port 端口指定fcpipe监听及本地占用端口；对fc权限要求port端口一致(8000,或8080)
+
  * router 路由表
+ 
+   router 主要是为了指定静态资源host及后端请求host;
+ 
+<pre>
 
     exports.router = {
         'static-host': '127.0.0.1', // static-host用于指定静态资源访问机器
@@ -10,6 +17,8 @@
         'fc-offline.baidu.com': '10.48.236.52',
         'fengchao.baidu.com':  '10.81.35.167'
     };
+
+</pre>
 
  * 静态规则proxyRules 或动态规则getRules函数
 
