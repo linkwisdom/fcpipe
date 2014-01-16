@@ -6,8 +6,7 @@ var logHandler = logData(function(data) {
 
 // 直接请求后端
 var sendToEnd = proxyRequest({
-        host: 'dynamic-host',
-        port: 8000
+        host: 'dynamic-host'
     });
 
 // 联调模式

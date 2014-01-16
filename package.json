@@ -7,7 +7,7 @@
   ],
   "name": "fcpipe",
   "description": "building a pipe between front to back ends",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "repository": {
     "type": "git",
     "url": "git://github.com/linkwisdom/fcpipe.git"

@@ -53,6 +53,8 @@ exports.start = function(port, proxyServer) {
 
     console.log('pipe on port :', exports.port);
 
+    // process.port 为了其它端口统一
+    process.port = exports.port;
     http.createServer(function(request, response) {
         // 直接被代理
         if (proxyServer) {

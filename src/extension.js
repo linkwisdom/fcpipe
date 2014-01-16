@@ -118,13 +118,28 @@ exports.proxyRequest = function(option) {
             option.host = router[option.host];
         }
         
-        if (option.port && option.host) {
+        if (option && option.host) {
             var config = {
                 host: option.host,
-                port: option.port
+                port: option.port || process.port
             };
 
-            proxy.proxyRequest(request, response, config);
+            //proxy.proxyRequest(request, response, config);
+            
+            console.log(request.url);
+
+            if (request.url == '/nirvana/request.ajax?path=GET/ao/request') {
+                console.log('-----');
+                response.end('{"status":200, "data": []}');
+                return true;
+            }
+
+            try {
+                proxy.proxyRequest(request, response, config);
+            } catch (ex) {
+                console.log('Error:' , request.url);
+                response.end('error');
+            }
             return true;
         }
     };
