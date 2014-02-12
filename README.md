@@ -59,17 +59,20 @@
 - src/extension 定义了多种请求处理方法，你也可以在fcpipe-config.js中写自己的extension方法
 - 新增加自定义ajax请求转发功能；可以在联调模式中将特定path请求转发到本地机器或其它数据服务器
 
+<code>
 
     var staticConfig = {
         host: '127.0.0.1',
         port: 8848
     };
-
+    // ajax 转发规则, 可将不同接口转发到不同机器
     exports.ajaxRules = {
         'GET/nikon/packagestatus': staticConfig,
         'GET/profile/coupon': staticConfig,
         'GET/nikon/introduction': staticConfig
     };
+    
+</code>
 
 ### 注意
 依赖的http-proxy最近有升级；保持在v1.10.4下
