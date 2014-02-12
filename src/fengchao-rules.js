@@ -1,8 +1,12 @@
 // 日志输出
-var logHandler = logData(function(data) {
+var logHandler = logData(function (data) {
         // 如果要做日志监控，在这里输出内容
         //console.log(data);
     });
+
+var ajaxRules = {
+
+};
 
 // 直接请求后端
 var sendToEnd = proxyRequest({
@@ -46,6 +50,13 @@ exports.debug = [
     {
         path: 'log/fclogimg.gif',
         handler: logHandler
+    },
+    {
+        path: 'request.ajax',
+        handler: proxyRequest({
+            host: 'dynamic-host',
+            ajaxRules: ajaxRules
+        })
     },
     {
         path: '/',

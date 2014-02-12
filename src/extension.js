@@ -4,7 +4,7 @@ var _SESSION = {};
 
 exports.defaultHost = 'fc-offline.baidu.com';
 
-exports.proxyTo = function(request, response, config) {
+exports.proxyTo = function (request, response, config) {
     if (config.qhost) {
         request.headers.host = config.qhost;
     } else {
@@ -12,6 +12,19 @@ exports.proxyTo = function(request, response, config) {
     }
 
     proxy.proxyRequest(request, response, config);
+};
+
+/**
+ * ajax请求匹配转发规则
+ * @param  {url} url  请求上下问
+ * @param  {Object} rules 转发规则
+ */
+exports.ajaxHandler = function (url, rules) {
+    var mt = url.match(/path=([\w+\/])/);
+    if (mt && mt.length == 2 && mt[1] in rules) {
+        return rules[mt[1]];
+    }
+    return false;
 };
 
 exports.getSession = function(request) {
@@ -124,14 +137,9 @@ exports.proxyRequest = function(option) {
                 port: option.port || process.port
             };
 
-            //proxy.proxyRequest(request, response, config);
-            
-            console.log(request.url);
-
-            if (request.url == '/nirvana/request.ajax?path=GET/ao/request') {
-                console.log('-----');
-                response.end('{"status":200, "data": []}');
-                return true;
+            // 再这里拦截ajax请求
+            if (option.ajaxRules && request.url.match(/request.ajax/)) {
+                config = exports.ajaxHandler(request.url, option.ajaxRules) || config;
             }
 
             try {
