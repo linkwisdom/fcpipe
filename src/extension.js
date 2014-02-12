@@ -20,7 +20,8 @@ exports.proxyTo = function (request, response, config) {
  * @param  {Object} rules 转发规则
  */
 exports.ajaxHandler = function (url, rules) {
-    var mt = url.match(/path=([\w+\/])/);
+    var mt = url.match(/path=([\w|\/]+)/);
+
     if (mt && mt.length == 2 && mt[1] in rules) {
         return rules[mt[1]];
     }
@@ -139,7 +140,15 @@ exports.proxyRequest = function(option) {
 
             // 再这里拦截ajax请求
             if (option.ajaxRules && request.url.match(/request.ajax/)) {
-                config = exports.ajaxHandler(request.url, option.ajaxRules) || config;
+                var _config = exports.ajaxHandler(request.url, option.ajaxRules);
+
+                // 如果返回的是代理参数，改写代理参数
+                if (_config && _config.host) {
+                    config = _config;
+                } else if (_config) {
+                    response.end(JSON.stringify(_config));
+                    return true;
+                }
             }
 
             try {

@@ -1,5 +1,5 @@
 // 执行下一条规则
-global.nextRule = function(context) {
+global.nextRule = function (context) {
     context._next = true;
 };
 
@@ -60,6 +60,6 @@ function proxyPass(context, proxyList) {
     }
 }
 
-exports.handle = function(context, proxyList) {
+exports.handle = function (context, proxyList) {
     proxyPass(context, proxyList);
 };

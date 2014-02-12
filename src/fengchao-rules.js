@@ -4,14 +4,14 @@ var logHandler = logData(function (data) {
         //console.log(data);
     });
 
-var ajaxRules = {
-
-};
-
 // 直接请求后端
 var sendToEnd = proxyRequest({
         host: 'dynamic-host'
     });
+
+exports.ajaxConfig = {
+    host: 'dynamic-host'
+};
 
 // 联调模式
 exports.debug = [
@@ -29,7 +29,7 @@ exports.debug = [
     },
     {
         path: 'debug/debug.js',
-        handler: function(context) {
+        handler: function (context) {
             context.content = '';
         }
     },
@@ -41,7 +41,7 @@ exports.debug = [
             port: 8848
         })
     },
-    // // 登录调转页面
+    // 登录调转页面
     {
         path: 'login.html',
         handler: getFile('login.html')
@@ -53,10 +53,7 @@ exports.debug = [
     },
     {
         path: 'request.ajax',
-        handler: proxyRequest({
-            host: 'dynamic-host',
-            ajaxRules: ajaxRules
-        })
+        handler: proxyRequest(exports.ajaxConfig)
     },
     {
         path: '/',

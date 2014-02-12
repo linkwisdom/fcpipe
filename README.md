@@ -57,3 +57,19 @@
 - 自定义配置文件名为fcpipe-config.js; 存放路径必须是当前命令执行目录的位置或父级目录
 - 请参考 src/fcpipe-config.js 进行自定义配置
 - src/extension 定义了多种请求处理方法，你也可以在fcpipe-config.js中写自己的extension方法
+- 新增加自定义ajax请求转发功能；可以在联调模式中将特定path请求转发到本地机器或其它数据服务器
+
+
+    var staticConfig = {
+        host: '127.0.0.1',
+        port: 8848
+    };
+
+    exports.ajaxRules = {
+        'GET/nikon/packagestatus': staticConfig,
+        'GET/profile/coupon': staticConfig,
+        'GET/nikon/introduction': staticConfig
+    };
+
+### 注意
+依赖的http-proxy最近有升级；保持在v1.10.4下

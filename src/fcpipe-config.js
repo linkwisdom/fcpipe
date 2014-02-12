@@ -13,8 +13,11 @@ exports.router = {
 
 // 动态代理规则, modType应该是历史依赖的
 var modType = 'dev';
-exports.getRules = function(request) {
+exports.getRules = function (request) {
     var rules = require('./fengchao-rules');
+    
+    // 透传ajax规则
+    rules.ajaxConfig.ajaxRules = this.ajaxRules;
     if (request.url.indexOf('nirvana/main.html') > -1 ) {
         var req = require('url').parse(request.url, true);
         var query = req.query;

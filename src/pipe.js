@@ -21,7 +21,7 @@ var defaultConfig = require('./fcpipe-config');
  * @param  {number} port        访问端口
  * @param  {object/string/null} proxyServer 前端代理
  */
-exports.start = function(port, proxyServer) {
+exports.start = function (port, proxyServer) {
     var rules = [];
 
     // 直接 fcpipe 8080 www.baidu.com 实现代理
@@ -55,7 +55,7 @@ exports.start = function(port, proxyServer) {
 
     // process.port 为了其它端口统一
     process.port = exports.port;
-    http.createServer(function(request, response) {
+    http.createServer( function (request, response) {
         // 直接被代理
         if (proxyServer) {
             proxyTo(request, response, proxyServer);

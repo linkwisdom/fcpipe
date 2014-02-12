@@ -7,7 +7,7 @@
   ],
   "name": "fcpipe",
   "description": "building a pipe between front to back ends",
-  "version": "0.0.13",
+  "version": "0.1.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/linkwisdom/fcpipe.git"
@@ -23,7 +23,7 @@
     "fcpipe": "./bin/pipe"
   },
   "dependencies": {
-    "http-proxy": ">=0.10",
+    "http-proxy": "<=0.10.4",
     "mockjson": ">=0.0.3"
   },
   "engines": {
