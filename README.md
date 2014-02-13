@@ -49,18 +49,18 @@
 
 ### 默认配置
 
-- 静态资源地址http://localhost:8848/nirvana-workspace/nirvana/main.html可访问， 保证host,port和url都一致
-- 目标请求服务器的域名必须是fctest/fc-offline/fengchao等几个域名；端口默认是8000；部分RD的机器端口是8080时需要再单独设置
+- 静态资源地址`http://localhost:8848/nirvana-workspace/nirvana/main.html`可访问， 保证host,port和url都一致
+- 目标请求服务器的域名必须是`fctest/fc-offline/fengchao`等几个域名；端口默认是`8000`；部分RD的机器端口是8080时需要再单独设置
 
 ### 自定义配置
 
-- 自定义配置文件名为fcpipe-config.js; 存放路径必须是当前命令执行目录的位置或父级目录
-- 请参考 src/fcpipe-config.js 进行自定义配置
-- src/extension 定义了多种请求处理方法，你也可以在fcpipe-config.js中写自己的extension方法
+- 自定义配置文件名为`fcpipe-config.js`; 存放路径必须是当前命令执行目录的位置或父级目录
+- 请参考 `src/fcpipe-config.js` 进行自定义配置
+- 文件`src/extension` 定义了多种请求处理方法，你也可以在fcpipe-config.js中写自己的extension方法
 - 新增加自定义ajax请求转发功能；可以在联调模式中将特定path请求转发到本地机器或其它数据服务器
 
-<code>
 
+```js
     var staticConfig = {
         host: '127.0.0.1',
         port: 8848
@@ -71,8 +71,4 @@
         'GET/profile/coupon': staticConfig,
         'GET/nikon/introduction': staticConfig
     };
-    
-</code>
-
-### 注意
-依赖的http-proxy最近有升级；保持在v1.10.4下
+```
