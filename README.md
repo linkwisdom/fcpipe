@@ -72,3 +72,6 @@
         'GET/nikon/introduction': staticConfig
     };
 ```
+
+工作原理
+[fcpipe-原理](https://drive.google.com/file/d/0B03a7K1erUTpN1A2SVNQZVNUeFE/edit?usp=sharing)
