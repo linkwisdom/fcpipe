@@ -16,6 +16,8 @@
     127.0.0.1 fctest.baidu.com
     127.0.0.1 fc-offline.baidu.com
 
+> 务必记住这一步!
+
 ## 第三步 启动服务
 
     1. 启动本地edp服务
@@ -61,8 +63,12 @@
 
 
 ```js
+    // @file fcpipe-config.js
+    // 建议只填写有必要的配置项
+    
     exports.port =  8000;
     
+    // 自定义host映射关系
     exports.router = {
         'static-host': '127.0.0.1',
         'fctest.baidu.com': '10.94.23.61',
@@ -70,6 +76,7 @@
         'fengchao.baidu.com':  '10.81.35.167'
     };
     
+    // 如果需要转发mockservice; 按如下方式配置
     var staticConfig = {
         host: '127.0.0.1',
         port: 8848
