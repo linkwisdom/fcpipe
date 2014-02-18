@@ -61,6 +61,15 @@
 
 
 ```js
+    exports.port =  8000;
+    
+    exports.router = {
+        'static-host': '127.0.0.1',
+        'fctest.baidu.com': '10.94.23.61',
+        'fc-offline.baidu.com': '10.48.236.52',
+        'fengchao.baidu.com':  '10.81.35.167'
+    };
+    
     var staticConfig = {
         host: '127.0.0.1',
         port: 8848
