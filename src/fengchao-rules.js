@@ -6,7 +6,8 @@ var logHandler = logData(function (data) {
 
 // 直接请求后端
 var sendToEnd = proxyRequest({
-        host: 'dynamic-host'
+        host: 'dynamic-host',
+        port: process.port || 8000
     });
 
 exports.ajaxConfig = {
