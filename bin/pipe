@@ -8,5 +8,10 @@ if (argv.length < 3) {
 } else if (argv.length < 4) {
     pipe.start(+argv[2]);
 } else {
-    pipe.start(+argv[2], argv[3]);
+    if (argv[3] == '-debug') {
+        pipe.start(+argv[2]);
+        process._debugProcess(process.pid);
+    } else {
+        pipe.start(+argv[2], argv[3]);
+    }
 }
